@@ -5,10 +5,10 @@ import { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import moment from "moment";
 import { AuthContext } from "../../context/authContext";
+import DOMPurify from "dompurify";
 
 const Single = () => {
   const [post, setPost] = useState([]);
-
   const postId = useParams().id;
   const navigate = useNavigate();
 
@@ -38,7 +38,7 @@ const Single = () => {
   return (
     <div className="single">
       <div className="content">
-        <img src={post?.img} alt="" />
+        <img src={`../uploads/${post?.img}`} alt="" />
         <div className="user">
           {post.userImg && <img src={post.userImg} alt="" />}
           <div className="info">
@@ -47,7 +47,7 @@ const Single = () => {
           </div>
           {currentUser?.username === post?.username && (
             <div className="edit">
-              <Link to={`/write?edit=2`}>
+              <Link to={`/write?edit=2`} state={post}>
                 <img src="/assets/edit.png" alt="" />
               </Link>
               <img onClick={handleDelete} src="/assets/delete.png" alt="" />
@@ -55,7 +55,11 @@ const Single = () => {
           )}
         </div>
         <h1>{post.title}</h1>
-        {post.desc}
+        <p
+          dangerouslySetInnerHTML={{
+            __html: DOMPurify.sanitize(post.desc),
+          }}
+        ></p> 
       </div>
       <div className="menu">
         <Menu cat={post.cat}/>

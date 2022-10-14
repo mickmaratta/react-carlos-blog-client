@@ -1,4 +1,4 @@
-import React from 'react'
+import "./auth.scss";
 import { Link } from 'react-router-dom'
 
 const Login = () => {
@@ -10,7 +10,7 @@ const Login = () => {
         <input type="password" placeholder='Password' />
         <button>Login</button>
         <p>This is an error!</p>
-        <span>Don't have an account? <Link to="/register">Register</Link></span>
+        <span>Don't have an account? <Link to="/register" className="link">Register</Link></span>
       </form>
     </div>
   )

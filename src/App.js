@@ -1,11 +1,11 @@
 import { Routes, Route, Outlet } from "react-router-dom";
-import Home from "./pages/Home";
-import Register from "./pages/Register";
-import Login from "./pages/Login";
-import Single from "./pages/Single";
-import Write from "./pages/Write";
-import Navbar from "./components/Navbar";
-import Footer from "./components/Footer";
+import Home from "./pages/home/Home";
+import Register from "./pages/auth/Register";
+import Login from "./pages/auth/Login";
+import Single from "./pages/single/Single";
+import Write from "./pages/write/Write";
+import Navbar from "./components/navbar/Navbar";
+import Footer from "./components/footer/Footer";
 import "./style.scss";
 
 const Layout = () => {

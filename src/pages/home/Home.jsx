@@ -1,8 +1,25 @@
 import "./home.scss";
-import { Link } from "react-router-dom";
-import { posts } from "../../dummyData";
+import { Link, useLocation, useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+import axios from "axios"
+//import { posts } from "../../dummyData";
 
 const Home = () => {
+  const [posts, setPosts] = useState([]);
+
+  const cat = useLocation().search
+
+  useEffect(()=> {
+    const fetchData = async () => {
+      try {
+        const res = await axios.get(`/posts${cat}`);
+        setPosts(res.data);
+      } catch (error) {
+        console.log(error)
+      }
+    }
+    fetchData();
+  },[cat])
   return (
     <div className="home">
       <div className="posts">

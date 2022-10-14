@@ -1,33 +1,67 @@
-import "./single.scss"
-import { Link } from "react-router-dom";
-import Menu from '../../components/menu/Menu';
+import "./single.scss";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import Menu from "../../components/menu/Menu";
+import { useContext, useEffect, useState } from "react";
+import axios from "axios";
+import moment from "moment";
+import { AuthContext } from "../../context/authContext";
 
 const Single = () => {
+  const [post, setPost] = useState([]);
+
+  const postId = useParams().id;
+  const navigate = useNavigate();
+
+  const { currentUser } = useContext(AuthContext);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await axios.get(`/posts/${postId}`);
+        setPost(res.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchData();
+  }, [postId]);
+
+  const handleDelete = async () => {
+    try {
+      await axios.delete(`/posts/${postId}`);
+      navigate("/");
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
-    <div className='single'>
+    <div className="single">
       <div className="content">
-        <img src="https://images.pexels.com/photos/6489663/pexels-photo-6489663.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" alt="" />
+        <img src={post?.img} alt="" />
         <div className="user">
-          <img src="https://images.pexels.com/photos/6489663/pexels-photo-6489663.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" alt="" />
+          {post.userImg && <img src={post.userImg} alt="" />}
           <div className="info">
-            <span>John</span>
-            <p>Posted 2 days ago</p>
+            <span>{post?.username}</span>
+            <p>Posted {moment(post.date).fromNow()}</p>
           </div>
-          <div className="edit">
-            <Link to={`/write?edit=2`}>
-            <img src="/assets/edit.png" alt="" />
-            </Link>
-            <img src="/assets/delete.png" alt="" />
-          </div>
+          {currentUser?.username === post?.username && (
+            <div className="edit">
+              <Link to={`/write?edit=2`}>
+                <img src="/assets/edit.png" alt="" />
+              </Link>
+              <img onClick={handleDelete} src="/assets/delete.png" alt="" />
+            </div>
+          )}
         </div>
-        <h1>Lorem ipsum dolor sit amet consectetur adipisicing elit</h1>
-        <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. A possimus excepturi aliquid nihil cumque ipsam facere aperiam at! Ea dolorem ratione sit debitis deserunt repellendus numquam ab vel perspiciatis corporis!</p>
+        <h1>{post.title}</h1>
+        {post.desc}
       </div>
       <div className="menu">
-        <Menu />
+        <Menu cat={post.cat}/>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Single
+export default Single;

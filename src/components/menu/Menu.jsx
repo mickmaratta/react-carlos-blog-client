@@ -1,7 +1,23 @@
+import { useEffect, useState } from "react";
 import "./menu.scss";
-import { posts } from "../../dummyData";
+import axios from "axios";
+//import { posts } from "../../dummyData";
 
-const Menu = () => {
+const Menu = ({cat}) => {
+  const [posts, setPosts] = useState([]);
+
+  useEffect(()=> {
+    const fetchData = async () => {
+      try {
+        const res = await axios.get(`/posts/?cat=${cat}`);
+        setPosts(res.data);
+      } catch (error) {
+        console.log(error)
+      }
+    }
+    fetchData();
+  },[cat])
+
   return (
     <div className="menu">
       <h1>Other posts you may like</h1>

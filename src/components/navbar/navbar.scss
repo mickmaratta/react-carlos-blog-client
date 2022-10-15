@@ -1,47 +1,51 @@
 @import "../../style.scss";
 
 .navbar {
-    .container {
-      padding: 10px 0;
-      width: 1024px;
+  .container {
+    padding: 10px 0;
+    width: 1024px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    .logo {
+    }
+
+    .links {
       display: flex;
       align-items: center;
-      justify-content: space-between;
+      gap: 10px;
 
-      .logo {
+      h6 {
+        font-size: 16px;
+        font-weight: 300;
+
+        &.active {
+          font-weight: 600;
+        }
       }
 
-      .links {
+      span {
+        cursor: pointer;
+      }
+
+      .write {
+        background-color: $lightGreen;
+        border: 1px solid $lightGreen;
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
         display: flex;
         align-items: center;
-        gap: 10px;
+        justify-content: center;
+        font-weight: 300;
+        transition: all 0.5s ease;
 
-        h6 {
-          font-size: 16px;
-          font-weight: 300;
-        }
-
-        span {
-          cursor: pointer;
-        }
-
-        .write {
-          background-color: $lightGreen;
-          border: 1px solid $lightGreen;
-          width: 50px;
-          height: 50px;
-          border-radius: 50%;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          font-weight: 300;
-          transition: all 0.5s ease;
-
-          &:hover {
-            color: teal;
-            background-color: white;
-          }
+        &:hover {
+          color: teal;
+          background-color: white;
         }
       }
     }
   }
+}

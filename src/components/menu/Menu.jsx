@@ -2,22 +2,23 @@ import { useEffect, useState } from "react";
 import "./menu.scss";
 import axios from "axios";
 import { Link } from "react-router-dom";
-//import { posts } from "../../dummyData";
+import { shuffle } from "../../globalFunctions";
 
-const Menu = ({cat}) => {
+const Menu = ({cat, postId}) => {
   const [posts, setPosts] = useState([]);
 
   useEffect(()=> {
     const fetchData = async () => {
       try {
         const res = await axios.get(`/posts/?cat=${cat}`);
-        setPosts(res.data);
+        let menuPosts = res.data.filter(post => post.id !== +postId);
+        setPosts(shuffle(menuPosts).splice(0, 3));
       } catch (error) {
         console.log(error)
       }
     }
     fetchData();
-  },[cat])
+  },[cat, postId])
 
   return (
     <div className="menu">

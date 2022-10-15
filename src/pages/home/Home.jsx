@@ -1,19 +1,21 @@
 import "./home.scss";
-import { Link, useLocation, useParams } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios"
-//import { posts } from "../../dummyData";
+import { shuffle } from "../../globalFunctions";
 
 const Home = () => {
   const [posts, setPosts] = useState([]);
 
   const cat = useLocation().search
 
+ 
+
   useEffect(()=> {
     const fetchData = async () => {
       try {
         const res = await axios.get(`/posts${cat}`);
-        setPosts(res.data);
+        setPosts(shuffle(res.data).splice(0, 6));
       } catch (error) {
         console.log(error)
       }
@@ -28,6 +30,7 @@ const Home = () => {
 
   return (
     <div className="home">
+      <h1 className="homeTitle">{cat === "" ? "FEATURED" : cat.split("=")[1].toUpperCase()}</h1>
       <div className="posts">
         {posts.map((post) => (
           <div className="post" key={post.id}>

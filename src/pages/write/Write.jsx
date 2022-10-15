@@ -8,10 +8,10 @@ import moment from "moment";
 
 const Write = () => {
   const state = useLocation().state;
-  const [title, setTitle] = useState(state?.title || null)
-  const [value, setValue] = useState(state?.desc || null);
+  const [title, setTitle] = useState(state?.title || "")
+  const [value, setValue] = useState(state?.desc || "");
   const [file, setFile] = useState(null)
-  const [cat, setCat] = useState(state?.cat || null)
+  const [cat, setCat] = useState(state?.cat || "")
 
   const navigate = useNavigate();
 
@@ -48,6 +48,7 @@ const Write = () => {
       console.log(error)
     }
   }
+
   return (
     <div className="add">
       <div className="content">
@@ -70,7 +71,8 @@ const Write = () => {
           <span>
             <b>Status: </b> Public
           </span>
-          <input style={{ display: "none" }} type="file" id="file" onChange={e=>setFile(e.target.files[0])}/>
+          <input style={{display: "none"}} type="file" id="file" onChange={e=>setFile(e.target.files[0])}/>
+          {file && <span>{file.name}</span>}
           <label className="file" htmlFor="file">
             Upload Image
           </label>

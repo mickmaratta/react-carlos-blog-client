@@ -23,7 +23,7 @@ const Home = () => {
 
   const getText = (html) => {
     const doc = new DOMParser().parseFromString(html, "text/html")
-    return doc.body.textContent
+    return doc.body.textContent.split(" ").splice(0, 75).join(" ");
   }
 
   return (
@@ -38,7 +38,7 @@ const Home = () => {
               <Link className="link" to={`post/${post.id}`}>
                 <h1>{post.title}</h1>
               </Link>
-              <p>{getText(post.desc)}</p>
+              <p>{getText(post.desc)} ...</p>
               <Link className="link" to={`post/${post.id}`}>
               <button>Read More</button>
               </Link>
